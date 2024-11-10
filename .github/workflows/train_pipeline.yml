@@ -1,0 +1,39 @@
+name: Run Training Pipeline
+
+# Configuración para activar el workflow en cada push
+on:
+  push:
+    branches:
+      - main  # Cambia 'main' si tu rama principal tiene otro nombre
+
+jobs:
+  train-pipeline:
+    runs-on: ubuntu-latest  # Sistema operativo en el que se ejecutará el job
+
+    steps:
+      # Paso 1: Checkout del código
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      # Paso 2: Configuración de Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12.6'  # Cambia a la versión de Python que necesites
+
+      # Paso 3: Instala las dependencias
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Paso 4: Configura las variables de entorno para MLflow y otros
+      - name: Set environment variables
+        env:
+          MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}  # Usa el secreto de GitHub para MLflow
+        run: echo "Environment variables set."
+
+      # Paso 5: Ejecuta el pipeline de entrenamiento
+      - name: Run Training Pipeline
+        run: |
+          python pipelines/training.py --environment=pypi   # Cambia por el nombre del archivo que contiene el pipeline
