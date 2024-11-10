@@ -36,4 +36,4 @@ jobs:
       # Paso 5: Ejecuta el pipeline de entrenamiento
       - name: Run Training Pipeline
         run: |
-          python pipelines/training.py --environment=pypi   # Cambia por el nombre del archivo que contiene el pipeline
+          python3 pipelines/training.py --environment=pypi  run # Cambia por el nombre del archivo que contiene el pipeline
