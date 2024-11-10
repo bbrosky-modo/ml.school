@@ -24,6 +24,7 @@ from metaflow import (
     pypi_base,
     resources,
     step,
+    conda_base
 )
 
 configure_logging()
@@ -45,6 +46,8 @@ configure_logging()
         "python-dotenv",
     ),
 )
+
+@conda_base(disabled=True)
 class Training(FlowSpec, FlowMixin):
     """Training pipeline.
 
